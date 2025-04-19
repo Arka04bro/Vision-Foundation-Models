@@ -43,7 +43,7 @@ Create a `.env` file in the root directory:
 
 ```env
 BOT_TOKEN=your_telegram_bot_token
-CHAT_ID=-4670568334
+CHAT_ID=-46705****
 CONFIDENCE_THRESHOLD=0.4
 CONSECUTIVE_FRAMES_THRESHOLD=15
 USE_GPU=True
