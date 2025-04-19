@@ -14,7 +14,7 @@ from io import BytesIO
 import numpy as np
 '''
 Code was written by Eraly Gainulla 15.01.2025 
-Updated for ESP32-CAM integration 20.04.2025 with Arkat 
+Updated for ESP32-CAM integration 20.04.2025 with Khassanov Arkat
 '''
 
 # Загрузка переменных c окружения
