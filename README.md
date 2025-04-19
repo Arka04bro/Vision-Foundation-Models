@@ -126,6 +126,6 @@ This project is licensed under the MIT License — use it freely, improve it, an
 ---
 
 ### Maintained by 
--**[Eraly Gainulla](https://eraly-ml.github.io/)** • _SmartBilim School, Aktobe, Kazakhstan_
--*
+-**[Eraly Gainulla](https://eraly-ml.github.io/)** _SmartBilim School, Aktobe, Kazakhstan_
+-**Khassanov Arkat** _9th gymnasium Aktobe, Kazakhstan_
 ```
