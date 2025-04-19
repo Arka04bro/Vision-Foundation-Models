@@ -1,0 +1,6 @@
+BOT_TOKEN='Could get from botfather'
+CHAT_ID='Could get from bots'
+MODEL_PATH=bestyolo.pt
+CONFIDENCE_THRESHOLD=0.5
+CONSECUTIVE_FRAMES_THRESHOLD=10
+USE_GPU=True
