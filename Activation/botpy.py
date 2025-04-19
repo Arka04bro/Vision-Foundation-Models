@@ -8,12 +8,17 @@ import asyncio
 import logging
 import os
 from dotenv import load_dotenv
-import time  # Для использования задержки
+import time
+import requests
+from io import BytesIO
+import numpy as np
 '''
 Code was written by Eraly Gainulla 15.01.2025 
+Updated for ESP32-CAM integration 20.04.2025 with Arkat 
 '''
+
 # Загрузка переменных c окружения
-load_dotenv()
+load_dotenv(dotenv_path=".env)
 
 # Настройка логирования
 logging.basicConfig(
@@ -24,12 +29,14 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Параметры конфигурации
-MODEL_PATH = os.getenv("/home/eraly/smoke-d/bestyolo.pt")
-BOT_TOKEN = os.getenv("BOT_TOKEN")
-CHAT_ID = os.getenv("CHAT_ID")
-CONFIDENCE_THRESHOLD = float(os.getenv("CONFIDENCE_THRESHOLD"))
-CONSECUTIVE_FRAMES_THRESHOLD = int(os.getenv("CONSECUTIVE_FRAMES_THRESHOLD", 10))
+MODEL_PATH = os.getenv("MODEL_PATH", "bestyolo.pt")
+BOT_TOKEN = os.getenv('BOT_TOKEN', '')
+CHAT_ID = os.getenv('CHAT_ID', '')
+CONFIDENCE_THRESHOLD = float(os.getenv('CONFIDENCE_THRESHOLD', ))
+CONSECUTIVE_FRAMES_THRESHOLD = int(os.getenv('CONSECUTIVE_FRAMES_THRESHOLD', ))
 USE_GPU = os.getenv("USE_GPU", "True").lower() in ["true", "1", "yes"]
+ESP32CAM_IP = os.getenv("ESP32CAM_IP", "192.168.100.25")
+ESP32CAM_STREAM_URL = f"http://{ESP32CAM_IP}/capture"  # URL для получения кадров с ESP32-CAM
 
 # Функция для отправки уведомлений в Telegram 
 async def send_telegram_notification(bot, chat_id, frame_path):
@@ -44,7 +51,7 @@ async def send_telegram_notification(bot, chat_id, frame_path):
 # Функция для загрузки модели
 def load_model():
     try:
-        model = torch.hub.load("ultralytics/yolov5", "custom", path='/home/eraly/smoke-d/bestyolo.pt', force_reload=True)
+        model = torch.hub.load("ultralytics/yolov5", "custom", path='bestyolo.pt', force_reload=True)
         device = "cuda" if USE_GPU and torch.cuda.is_available() else "cpu"
         model.to(device)
         logger.info(f"Модель успешно загружена на устройство: {device}")
@@ -52,6 +59,21 @@ def load_model():
     except Exception as e:
         logger.error(f"Ошибка при загрузке модели: {e}")
         raise
+
+# Функция для получения кадра с ESP32-CAM
+def get_esp32cam_frame():
+    try:
+        response = requests.get(ESP32CAM_STREAM_URL, timeout=5)
+        if response.status_code == 200:
+            img_array = np.asarray(bytearray(response.content), dtype=np.uint8)
+            frame = cv2.imdecode(img_array, cv2.IMREAD_COLOR)
+            return True, frame
+        else:
+            logger.error(f"Ошибка при получении кадра: HTTP {response.status_code}")
+            return False, None
+    except Exception as e:
+        logger.error(f"Ошибка при подключении к ESP32-CAM: {e}")
+        return False, None
 
 # Основная функция
 async def main():
@@ -64,12 +86,6 @@ async def main():
     # Загрузка модели
     model, device = load_model()
 
-    # Инициализация видеозахвата через указанный путь
-    cap = cv2.VideoCapture("0")  # Используем корректный индекс устройства
-    if not cap.isOpened():
-        logger.error("Не удалось открыть камеру. Проверьте подключение.")
-        return
-
     # Переменные для контроля уведомлений
     smoke_detected = False
     frames_without_smoke = 0
@@ -77,10 +93,12 @@ async def main():
 
     try:
         while True:
-            ret, frame = cap.read()
+            # Получаем кадр с ESP32-CAM
+            ret, frame = get_esp32cam_frame()
             if not ret:
-                logger.error("Не удалось захватить кадр. Проверьте камеру.")
-                break
+                logger.error("Не удалось получить кадр с ESP32-CAM. Повторная попытка через 5 секунд...")
+                await asyncio.sleep(5)
+                continue
 
             # Выполнение инференса
             results = model(frame)
@@ -103,32 +121,30 @@ async def main():
                 if current_time - last_detection_time >= 10:  # Тайм-аут 10 секунд
                     frame_path = "smoke_detected.jpg"
                     cv2.imwrite(frame_path, frame)
-                    await send_telegram_notification(bot, CHAT_ID, frame_path)  # Гарантируем выполнение уведомления
+                    await send_telegram_notification(bot, CHAT_ID, frame_path)
                     smoke_detected = True
                     frames_without_smoke = 0
-                    last_detection_time = current_time  # Обновляем время последнего обнаружения
+                    last_detection_time = current_time
 
             if not smoke_present:
                 frames_without_smoke += 1
                 if smoke_detected and frames_without_smoke >= CONSECUTIVE_FRAMES_THRESHOLD:
                     smoke_detected = False
 
-            # Изменение размера кадра на 648x480
+            # Изменение размера кадра для отображения
             resized_frame = cv2.resize(frame, (1280, 720))
 
             # Отображение кадра с измененным размером
-            cv2.imshow("Smoke Detection", resized_frame)
+            cv2.imshow("Smoke Detection - ESP32-CAM", resized_frame)
             if cv2.waitKey(1) == ord("q"):
                 break
 
-            await asyncio.sleep(0.01)  # Небольшая задержка для выполнения других задач
+            await asyncio.sleep(0.1)  # Небольшая задержка для снижения нагрузки
 
     except Exception as e:
         logger.error(f"Ошибка во время выполнения: {e}")
     finally:
-        cap.release()
         cv2.destroyAllWindows()
         logger.info("Программа завершена.")
 
-if __name__ == "__main__":
-    asyncio.run(main())
+await main()
