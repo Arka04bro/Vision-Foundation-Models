@@ -17,6 +17,7 @@ project-root/
 ├── Activation/
 │   ├── WEBCAM.py         # Real-time smoke detection using a webcam
 │   └── ESP32-CAM.py      # Optional script for ESP32-CAM
+├── Images
 ├── bestyolo.pt           # Custom-trained YOLOv5 model for smoke detection
 ├── Dockerfile            # Docker container definition
 ├── requirements.txt      # Python dependencies
