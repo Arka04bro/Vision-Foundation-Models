@@ -88,7 +88,7 @@ Update this line in `WEBCAM.py` if using a different device.
 
 ## ✅ Use Case
 
-- Fire/smoke early warning system
+- Smoke early warning system
 - Industrial monitoring
 - Smart home safety integration
 - Research in edge AI and object detection
