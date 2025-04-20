@@ -95,12 +95,6 @@ Update this line in `WEBCAM.py` if using a different device.
 
 ---
 
-## 🚀 Demo
-
-Coming soon — see sample frames in the `/logs` or Telegram chat during detection.
-
----
-
 ## 📌 Future Enhancements
 
 - Web interface for real-time monitoring
