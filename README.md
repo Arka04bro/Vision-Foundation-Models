@@ -8,6 +8,8 @@
 
 This project is a real-time smoke detection system using a custom-trained YOLOv5 model. Upon detecting smoke, it automatically sends alerts — including annotated frames — to a specified Telegram chat. Designed to run in a Docker container for easy deployment.
 
+![Smoke detedted image](Images/photo_5195330829839102595_y%20(1).jpg)
+
 ---
 
 ## 📁 Project Structure
