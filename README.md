@@ -21,6 +21,7 @@ project-root/
 ├── bestyolo.pt           # Custom-trained YOLOv5 model for smoke detection
 ├── Dockerfile            # Docker container definition
 ├── requirements.txt      # Python dependencies
+├──esp32cam_code.ino      # esp32 settings 
 ├── .env                  # Environment variables for model and Telegram
 └── README.md             # Project documentation
 ```
