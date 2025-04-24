@@ -1,7 +1,7 @@
 FROM python:3.10-slim
 
 # Set the working directory inside the container
-WORKDIR /app
+WORKDIR /main
 
 # Update and install system dependencies
 RUN apt-get update && apt-get install -y \
