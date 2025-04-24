@@ -15,7 +15,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy application files into the working directory
 COPY src/ ./src/
-COPY model/ ./model/ # Copy the entire model directory
+COPY model/ ./model/  
 COPY .env .
 
 # Set environment variable
