@@ -50,12 +50,12 @@ project-root/
 
 ```
 
-BOT\_TOKEN=your\_telegram\_bot\_token
-CHAT\_ID=-46705\*\*\*\*
-CONFIDENCE\_THRESHOLD=0.4
-CONSECUTIVE\_FRAMES\_THRESHOLD=15
-USE\_GPU=True
-MODEL\_PATH=bestyolo.pt
+BOT_TOKEN=your_telegram_bot_token
+CHAT_ID=-46705****
+CONFIDENCE_THRESHOLD=0.4
+CONSECUTIVE_FRAMES_THRESHOLD=15
+USE_GPU=True
+MODEL_PATH=bestyolo.pt
 
 ````
 
