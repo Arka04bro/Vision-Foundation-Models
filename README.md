@@ -1,128 +1,142 @@
-# 🔥 Real-Time Smoke Detection with YOLOv5 & Telegram Alerts
+# Real-Time Smoke Detection with YOLOv5 & Telegram Alerts
 
-[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Docker Build](https://img.shields.io/badge/docker-ready-blue)](https://hub.docker.com/r/yourdockerusername/smoke-detector)
-[![Deployment Ready](https://img.shields.io/badge/deployment-ready-success)](#)
+[![Last commit](https://img.shields.io/github/last-commit/yourusername/yourrepo?color=red)](https://github.com/Arka04bro/Smoke_Detection-/commits/main)
 
 ---
 
-This project is a real-time smoke detection system using a custom-trained YOLOv5 model. Upon detecting smoke, it automatically sends alerts — including annotated frames — to a specified Telegram chat. Designed to run in a Docker container for easy deployment.
-
-![Smoke detedted image](Images/photo_5195330829839102595_y%20(1).jpg)
+<div align="center">
+  <img src="Images/photo_5195330829839102595_y%20(1).jpg" alt="Smoke detected" width="600" style="border-radius:12px; box-shadow: 0 6px 20px rgba(0,0,0,0.3);" />
+  <p><i>Example of smoke detection with bounding boxes</i></p>
+</div>
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
+
 project-root/
 ├── Activation/
-│   ├── WEBCAM.py         # Real-time smoke detection using a webcam
-│   └── ESP32-CAM.py      # Optional script for ESP32-CAM
-├── Images
-├── bestyolo.pt           # Custom-trained YOLOv5 model for smoke detection
-├── Dockerfile            # Docker container definition
-├── requirements.txt      # Python dependencies
-├──esp32cam_code.ino      # Esp32 settings 
-├── .env                  # Environment variables for model and Telegram
-└── README.md             # Project documentation
+│   ├── WEBCAM.py          # Real-time detection from webcam
+│   └── ESP32-CAM.py       # Optional ESP32-CAM integration
+├── Images/                # Sample images and screenshots
+├── bestyolo.pt            # Custom YOLOv5 weights
+├── Dockerfile             # Docker config
+├── requirements.txt       # Dependencies
+├── esp32cam\_code.ino      # ESP32 firmware
+├── .env                   # Environment config
+└── README.md              # This file
+
 ```
 
 ---
 
-## ⚙️ Features
+## Features
 
-- ✅ Real-time object detection (smoke)
-- ✅ Works with USB webcam or ESP32-CAM
-- ✅ Telegram alert system with annotated frame delivery
-- ✅ GPU/CPU support with auto-detection
-- ✅ Configurable via `.env` file
-- ✅ Dockerized for cross-platform deployment
+- Real-time smoke detection using **YOLOv5**
+- Supports USB webcams and ESP32-CAM modules
+- Telegram alerts with annotated images on detection
+- Auto GPU/CPU detection for best performance
+- Fully configurable via `.env`
+- Docker-ready for easy deployment
 
 ---
 
-## 🔐 .env Configuration
+## Configuration — `.env`
 
-Create a `.env` file in the root directory:
+> [!TIP]
+> Create a `.env` file in your project root with these variables:
 
-```env
-BOT_TOKEN=your_telegram_bot_token
-CHAT_ID=-46705****
-CONFIDENCE_THRESHOLD=0.4
-CONSECUTIVE_FRAMES_THRESHOLD=15
-USE_GPU=True
-MODEL_PATH=bestyolo.pt
 ```
 
+BOT\_TOKEN=your\_telegram\_bot\_token
+CHAT\_ID=-46705\*\*\*\*
+CONFIDENCE\_THRESHOLD=0.4
+CONSECUTIVE\_FRAMES\_THRESHOLD=15
+USE\_GPU=True
+MODEL\_PATH=bestyolo.pt
+
+````
+
 ---
 
-## 🐳 Docker Build Instructions
+## Docker Usage
 
-1. Build the Docker image:
+Build the image:
 
 ```bash
 docker build -t smoke-detector .
-```
+````
 
-2. Run the container (default runs `WEBCAM.py`):
+Run (webcam default):
 
 ```bash
 docker run --rm --env-file .env smoke-detector
 ```
 
-3. (Optional) Run with GPU support:
+Run with GPU support:
 
 ```bash
 docker run --rm --env-file .env --gpus all smoke-detector
 ```
 
+> \[!WARNING]
+> When using GPU support, ensure your Docker and drivers support NVIDIA Container Toolkit.
+
 ---
 
-## 🖥️ Camera Source
+## 🎥 Camera Source
 
-By default, the system uses:
+By default:
 
 ```python
 cv2.VideoCapture("/dev/video1")
 ```
 
-Update this line in `WEBCAM.py` if using a different device.
+Change device index in `Activation/WEBCAM.py` if needed.
 
 ---
 
-## ✅ Use Case
+## Use Cases
 
-- Smoke early warning system
-- Industrial monitoring
-- Smart home safety integration
-- Research in edge AI and object detection
-
----
-
-## 📌 Future Enhancements
-
-- Web interface for real-time monitoring
-- MQTT/IoT integration
-- Video recording of incidents
-- Multi-camera support
-- ESP32-CAM full integration
+* Early smoke/fire warning systems
+* Industrial safety monitoring
+* Smart home security
+* Edge AI prototyping
 
 ---
 
-## 📜 License
+## Future Enhancements
 
-This project is licensed under the MIT License — use it freely, improve it, and share it.
-
----
-
-## 🤝 Acknowledgements
-
-- [Ultralytics](https://github.com/ultralytics/yolov5) for YOLOv5
-- [python-telegram-bot](https://github.com/python-telegram-bot/python-telegram-bot)
-- OpenCV and PyTorch communities
+* Web dashboard for live monitoring
+* MQTT/IoT integration
+* Video recording on detection
+* Multi-camera support
+* ESP32-CAM firmware integration
 
 ---
 
-### Maintained by 
-- **[Eraly Gainulla](https://eraly-ml.github.io/)** _SmartBilim School, Aktobe, Kazakhstan_
-- **[Khassanov Arkat](https://github.com/Arka04bro)** _9th gymnasium Aktobe, Kazakhstan_
+## License
+
+Licensed under the MIT License — use and modify freely.
+
+---
+
+## Acknowledgements
+
+* [Ultralytics YOLOv5](https://github.com/ultralytics/yolov5)
+* [python-telegram-bot](https://github.com/python-telegram-bot/python-telegram-bot)
+* OpenCV and PyTorch communities
+
+---
+
+## Maintainers
+
+* **[Eraly Gainulla](https://eraly-ml.github.io/)** — SmartBilim School, Aktobe, Kazakhstan
+* **[Khassanov Arkat](https://github.com/Arka04bro)** — 9th Gymnasium, Aktobe, Kazakhstan
+
+---
+
+If you want, I can help add testing instructions, CI/CD setup, or other sections.
