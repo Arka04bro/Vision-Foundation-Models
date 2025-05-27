@@ -4,7 +4,6 @@
 [![Docker Build](https://img.shields.io/badge/docker-ready-blue)](https://hub.docker.com/r/yourdockerusername/smoke-detector)
 [![Last commit](https://img.shields.io/github/last-commit/yourusername/yourrepo?color=red)](https://github.com/Arka04bro/Smoke_Detection-/commits/main)
 
----
 
 <div align="center">
   <img src="Images/photo_5195330829839102595_y%20(1).jpg" alt="Smoke detected" width="600" style="border-radius:12px; box-shadow: 0 6px 20px rgba(0,0,0,0.3);" />
