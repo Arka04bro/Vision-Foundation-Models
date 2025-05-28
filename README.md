@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Docker Build](https://img.shields.io/badge/docker-ready-blue)](https://hub.docker.com/r/Arka04bro/Smoke_Detection-)
-[![Last commit](https://img.shields.io/github/last-commit/yourusername/yourrepo?color=red)](https://github.com/Arka04bro/Smoke_Detection-/commits/main)
+[![Last commit](https://img.shields.io/github/last-commit/Arka04bro/Smoke_Detection-?color=red)](https://github.com/Arka04bro/Smoke_Detection-/commits/main)
 
 
 <div align="center">
